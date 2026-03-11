@@ -34,7 +34,6 @@ runs:
       env:
         TARGET_AUTHORS: ${{ env.TARGET_AUTHORS }}
         TARGET_COMMIT_COUNT: ${{ env.TARGET_COMMIT_COUNT }}
-      continue-on-error: true
       run: |
         exe="$GITHUB_WORKSPACE/MUTS-CI"
         if [ ! -x "$exe" ]; then
