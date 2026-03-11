@@ -8,23 +8,23 @@ runs:
   using: "composite"
   steps:
 
-    # - name: Get Pull Request Authors and Set Environment Variable
-    #   uses: actions/github-script@v7
-    #   id: get_pr_authors
-    #   with:
-    #     github-token: ${{ github.token }}
-    #     script: |
-    #       const script = require('${{ github.action_path }}/get-pull-request-info.js');
-    #       await script({github, context, core});
+    - name: Get Pull Request Authors and Set Environment Variable
+      uses: actions/github-script@v7
+      id: get_pr_authors
+      with:
+        github-token: ${{ github.token }}
+        script: |
+          const script = require('${{ github.action_path }}/get-pull-request-info.js');
+          await script({github, context, core});
 
 
-    # - name: "Run MUTS-Git"
-    #   uses: "docker://ekrogh18/muts-git:0.3.0"
+    - name: "Run MUTS-Git"
+      uses: "docker://ekrogh18/muts-git:0.3.0"
 
-    # - name: Show result of MUTS-Git
-    #   shell: bash
-    #   run: |
-    #     cat git-commits.json
+    - name: Show result of MUTS-Git
+      shell: bash
+      run: |
+        cat git-commits.json
 
     - name: "Run MUTS-CI image to get MUTS-CI binary"
       uses: "docker://ekrogh18/muts-ci:1.5.0"
@@ -40,4 +40,4 @@ runs:
         if [ ! -x "$exe" ]; then
           chmod +x "$exe" || true
         fi
-        "$exe" --all-files --no-parallel --disable-mutant-tracking --mutant-timeout-strategy=lightweight
+        "$exe" --file-list-json=$GITHUB_WORKSPACE/git-commits.json --no-parallel --disable-mutant-tracking --mutant-timeout-strategy=lightweight
