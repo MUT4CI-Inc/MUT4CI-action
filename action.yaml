@@ -19,7 +19,7 @@ runs:
 
 
     - name: "Run MUTS-Git"
-      uses: "docker://ekrogh18/muts-git:0.2.0"
+      uses: "docker://ekrogh18/muts-git:0.3.0"
 
     - name: Show result of MUTS-Git
       shell: bash
@@ -27,7 +27,7 @@ runs:
         cat git-commits.json
 
     - name: "Run MUTS-CI image to get MUTS-CI binary"
-      uses: "docker://ekrogh18/muts-ci:0.4.0"
+      uses: "docker://ekrogh18/muts-ci:1.5.0"
 
     - name: Run MUTS-CI
       shell: bash
@@ -40,4 +40,4 @@ runs:
         if [ ! -x "$exe" ]; then
           chmod +x "$exe" || true
         fi
-        "$exe" --file-list-json=$GITHUB_WORKSPACE/git-commits.json
+        "$exe" --file-list-json=$GITHUB_WORKSPACE/git-commits.json --no-parallel --disable-mutant-tracking --mutant-timeout-strategy=lightweight --project-root=$GITHUB_WORKSPACE --output-dir=$GITHUB_WORKSPACE/muts-ci-results
